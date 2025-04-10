@@ -1,11 +1,11 @@
 #!/bin/bash
 
-NETWORK=$1
-SCRIPT_PATH=$2
+NETWORK=$2
+SCRIPT_PATH=$1
 REQUIREMENTS_FILE=$3
 
 if [ -z "$SCRIPT_PATH" ]; then
-    echo "Usage: $0 <docker-network> <local-python-script-path> <requirements-path>"
+    echo "Usage: $0 <local-python-script-path> <docker-network> <requirements-path>"
     echo "You at least must provide python script path"
     exit 1
 fi
@@ -32,4 +32,4 @@ docker run --rm -it \
     -v "$SCRIPT_DIR":/app \
     -w /app \
     python:3.14-rc-slim \
-    bash -c "pip install -r '$REQUIREMENTS_FILE' --quiet && python '$SCRIPT_FILE'"
+    bash -c "pip install -r '$REQUIREMENTS_FILE' --quiet --root-user-action=ignore && python '$SCRIPT_FILE'"
